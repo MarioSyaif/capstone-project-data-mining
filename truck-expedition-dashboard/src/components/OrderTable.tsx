@@ -4,9 +4,10 @@ import './OrderTable.css';
 
 interface OrderTableProps {
   orders: Order[];
+  onStatusChange: (id: number, newStatus: Order['status']) => void;
 }
 
-const OrderTable: React.FC<OrderTableProps> = ({ orders }) => {
+const OrderTable: React.FC<OrderTableProps> = ({ orders, onStatusChange }) => {
   const getStatusColor = (status: Order['status']) => {
     switch (status) {
       case 'pending': return 'orange';
@@ -48,9 +49,49 @@ const OrderTable: React.FC<OrderTableProps> = ({ orders }) => {
                 <td>{order.truckType}</td>
                 <td>{order.weight.toLocaleString()} kg</td>
                 <td>
-                  <span className="status-badge" style={{ backgroundColor: getStatusColor(order.status) }}>
-                    {order.status}
-                  </span>
+                  <div className="status-cell">
+                    <span className="status-badge" style={{ backgroundColor: getStatusColor(order.status) }}>
+                      {order.status}
+                    </span>
+                    
+                    {/* Tombol untuk status Pending */}
+                    {order.status === 'pending' && (
+                      <div className="status-actions">
+                        <button 
+                          className="btn-progress"
+                          onClick={() => onStatusChange(order.id, 'on-progress')}
+                        >
+                          🚚 In Progress
+                        </button>
+                        <button 
+                          className="btn-deliver"
+                          onClick={() => onStatusChange(order.id, 'delivered')}
+                        >
+                          ✅ Mark as Delivered
+                        </button>
+                        <button 
+                          className="btn-cancel"
+                          onClick={() => {
+                            if (window.confirm("Yakin ingin membatalkan pesanan ini?")) {
+                              onStatusChange(order.id, 'cancelled');
+                            }
+                          }}
+                        >
+                          ❌ Cancel Order
+                        </button>
+                      </div>
+                    )}
+                    
+                    {/* Tombol untuk status On Progress */}
+                    {order.status === 'on-progress' && (
+                      <button 
+                        className="btn-deliver"
+                        onClick={() => onStatusChange(order.id, 'delivered')}
+                      >
+                        ✅ Mark as Delivered
+                      </button>
+                    )}
+                  </div>
                 </td>
                 <td>{new Date(order.deliveryDate).toLocaleDateString('id-ID')}</td>
               </tr>

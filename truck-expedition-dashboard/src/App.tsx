@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Order, Stats } from './types';
 import { mockOrders } from './data/mockData';
 import Header from './components/Header';
@@ -8,7 +8,16 @@ import StatsCard from './components/StatsCard';
 import './App.css';
 
 function App() {
-  const [orders, setOrders] = useState<Order[]>(mockOrders);
+  // Load data dari localStorage atau gunakan mockOrders jika kosong
+  const [orders, setOrders] = useState<Order[]>(() => {
+    const savedOrders = localStorage.getItem('orders');
+    return savedOrders ? JSON.parse(savedOrders) : mockOrders;
+  });
+
+  // Simpan data ke localStorage setiap kali berubah
+  useEffect(() => {
+    localStorage.setItem('orders', JSON.stringify(orders));
+  }, [orders]);
 
   // Calculate stats
   const stats: Stats = {
@@ -29,6 +38,13 @@ function App() {
     setOrders([newOrder, ...orders]);
   };
 
+  // Handle status change
+  const handleStatusChange = (id: number, newStatus: Order['status']) => {
+    setOrders(orders.map(order => 
+      order.id === id ? { ...order, status: newStatus } : order
+    ));
+  };
+
   return (
     <div className="app">
       <Header />
@@ -45,7 +61,10 @@ function App() {
             </section>
             
             <section id="orders" className="content-section">
-              <OrderTable orders={orders} />
+              <OrderTable 
+                orders={orders} 
+                onStatusChange={handleStatusChange}
+              />
             </section>
           </div>
         </div>

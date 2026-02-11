@@ -39,6 +39,12 @@
   font-weight: bold;
 }
 
+.status-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .status-badge {
   display: inline-block;
   padding: 0.3rem 0.8rem;
@@ -47,6 +53,78 @@
   font-size: 0.85rem;
   font-weight: 600;
   text-transform: capitalize;
+  transition: all 0.3s ease;
+}
+
+.status-badge:hover {
+  transform: scale(1.05);
+}
+
+.status-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* Tombol In Progress */
+.btn-progress {
+  padding: 0.6rem 1rem;
+  background: linear-gradient(135deg, #2196F3 0%, #0b7dda 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(33, 150, 243, 0.3);
+}
+
+.btn-progress:hover {
+  background: linear-gradient(135deg, #0b7dda 0%, #0866c2 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(33, 150, 243, 0.4);
+}
+
+/* Tombol Mark as Delivered */
+.btn-deliver {
+  padding: 0.6rem 1rem;
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
+}
+
+.btn-deliver:hover {
+  background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.4);
+}
+
+/* Tombol Cancel Order */
+.btn-cancel {
+  padding: 0.6rem 1rem;
+  background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(244, 67, 54, 0.3);
+}
+
+.btn-cancel:hover {
+  background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(244, 67, 54, 0.4);
 }
 
 @media (max-width: 768px) {
@@ -57,5 +135,17 @@
   .order-table th,
   .order-table td {
     padding: 0.75rem;
+  }
+  
+  .status-actions {
+    flex-direction: column;
+  }
+  
+  .btn-progress,
+  .btn-deliver,
+  .btn-cancel {
+    width: 100%;
+    font-size: 0.8rem;
+    padding: 0.5rem;
   }
 }
